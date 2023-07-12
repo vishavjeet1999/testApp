@@ -1,5 +1,13 @@
-import React from 'react';
-import {ScrollView, StyleSheet, Text, View, StatusBar} from 'react-native';
+import React, {useState} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TextInput,
+  Pressable,
+} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -24,7 +32,7 @@ let Question = () => {
           borderTopWidth: 1,
           borderBottomWidth: 3,
           paddingVertical: 10,
-          borderColor: '#d3d3d3',
+          borderColor: '#ededed',
           paddingHorizontal: 30,
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
@@ -33,7 +41,7 @@ let Question = () => {
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
           <Icon name="comment-text-outline" color={'#2fb9d4'} size={20} />
-          <Text style={styles.text7}>Comment 3</Text>
+          <Text style={styles.text7}>Comments 3</Text>
         </View>
       </View>
     </View>
@@ -41,53 +49,124 @@ let Question = () => {
 };
 
 const HomeScreen = () => {
+  let [search, setSearch] = useState(false);
+  let [text, setText] = useState('');
+
   return (
     <>
       <StatusBar animated={true} backgroundColor="white" />
       <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={{flexDirection: 'row', gap: 10, alignItems: 'flex-end'}}>
-            <Text style={styles.text}>Community</Text>
-            <Icon name="magnify" color={'grey'} size={25} />
-          </View>
-          <Icon name="account-circle" color={'grey'} size={35} />
-        </View>
-        <View style={styles.tabs}>
-          <View style={{flexDirection: 'row', gap: 25, alignItems: 'flex-end'}}>
-            <Text style={styles.text2}>Cases</Text>
-            <Text
-              style={[
-                styles.text3,
-                {
-                  borderBottomWidth: 2,
-                  borderColor: '#2fb9d4',
-                  paddingHorizontal: 5,
-                },
-              ]}>
-              Q&A
-            </Text>
-          </View>
-        </View>
-        <View style={styles.card}>
+        {search ? (
+          <>
+          <View style={{borderBottomWidth:5,
+            borderColor:"#ededed",}}>
           <View
-            style={{flexDirection: 'row', gap: 30, justifyContent: 'center'}}>
-            <Icon name="emoticon-cool" color={'white'} size={50} />
-            <View style={{alignItems: 'center'}}>
-              <Text style={styles.text4}>Your experience will be of</Text>
-              <Text style={styles.text4}>great help to someone.</Text>
+            style={{
+              flexDirection: 'row',
+              gap: 10,
+              paddingHorizontal: 25,
+              alignItems: 'center',
+              marginTop:10,
+              paddingBottom:10
+            }}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                borderRadius: 15,
+                gap:5,
+                backgroundColor: '#ededed',
+                paddingHorizontal: 10,
+                alignItems: 'center',
+              }}>
+              <Icon name="magnify" color={'#b5b5b5'} size={25} />
+              <TextInput
+                placeholder='Search'
+                placeholderTextColor={"#b5b5b5"}
+                style={{flex: 1, color: 'black', fontSize: 16, height: 40}}
+                onChangeText={text => setText(text)}
+                value={text}
+              />
+              <Pressable onPress={()=>setText("")}>
+                <Icon name="close-circle" color={'#b5b5b5'} size={20} />
+              </Pressable>
+
             </View>
+            <Pressable onPress={() => {setSearch(false); setText("")}}>
+              <Text style={{fontSize:16, fontWeight:'500',color:"#d3d3d3"}}>Cancel</Text>
+            </Pressable>
           </View>
-          <View
-            style={{backgroundColor: 'white', marginTop: 15, borderRadius: 10}}>
-            <Text style={styles.text5}>Ask your questions!</Text>
+          {
+            text &&
+            <Text style={[styles.text5, {paddingVertical:20}]}>
+              Sorry, there are no search keywords
+            </Text>
+          }
           </View>
-        </View>
+          <Text style={[styles.text6,{paddingHorizontal:30,marginTop:20}]}>You might also interested in...</Text>
+          </>
+        ) : (
+          <>
+            <View style={styles.header}>
+              <View
+                style={{flexDirection: 'row', gap: 10, alignItems: 'flex-end'}}>
+                <Text style={styles.text}>Community</Text>
+                <Pressable onPress={() => setSearch(true)}>
+                  <Icon name="magnify" color={'#b5b5b5'} size={25} />
+                </Pressable>
+              </View>
+              <Icon name="account-circle" color={'#b5b5b5'} size={35} />
+            </View>
+            <View style={styles.tabs}>
+              <View
+                style={{flexDirection: 'row', gap: 25, alignItems: 'flex-end'}}>
+                <Text style={styles.text2}>Cases</Text>
+                <Text
+                  style={[
+                    styles.text3,
+                    {
+                      borderBottomWidth: 2,
+                      borderColor: '#2fb9d4',
+                      paddingHorizontal: 5,
+                    },
+                  ]}>
+                  Q&A
+                </Text>
+              </View>
+            </View>
+            <View style={styles.card}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  gap: 30,
+                  justifyContent: 'center',
+                }}>
+                <Icon name="emoticon-cool-outline" color={'white'} size={50} />
+                <View style={{alignItems: 'center'}}>
+                  <Text style={styles.text4}>Your experience will be of</Text>
+                  <Text style={styles.text4}>great help to someone.</Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  backgroundColor: 'white',
+                  marginTop: 15,
+                  borderRadius: 10,
+                }}>
+                <Text style={styles.text5}>Ask your questions!</Text>
+              </View>
+            </View>
+          </>
+        )}
         <ScrollView>
           <Question />
           <Question />
           <Question />
           <Question />
           <Question />
+          <View style={{alignItems:"center"}}>
+            <Text style={[styles.text5,{fontSize:16,borderWidth:1, width:"50%", borderRadius:10, marginVertical:15,borderColor:'#2fb9d4'}]}>Load More Result</Text>
+          </View>
         </ScrollView>
       </View>
     </>
@@ -95,31 +174,19 @@ const HomeScreen = () => {
 };
 
 const CameraScreen = () => {
-  return (
-    <View style={styles.container}>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 };
 
 const CommunityScreen = () => {
-  return (
-    <View style={styles.container}>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 };
 
 const ConsultationScreen = () => {
-  return (
-    <View style={styles.container}>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 };
 
 const MyPageScreen = () => {
-  return (
-    <View style={styles.container}>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 };
 
 const Tab = createBottomTabNavigator();
@@ -137,19 +204,21 @@ const App = () => {
             } else if (route.name === 'Camera') {
               iconName = 'camera';
             } else if (route.name === 'Community') {
-              iconName = 'comment-text-multiple';
+              iconName = 'chat-processing';
             } else if (route.name === 'Consultation') {
               iconName = 'plus-box';
             } else if (route.name === 'MyPage') {
               iconName = 'account';
             }
 
-            return <Icon name={iconName} color={color} size={size} />;
+            return <Icon style={{marginBottom:-10}} name={iconName} color={color} size={size} />;
           },
-          headerShown: false
+          headerShown: false,
         })}
         tabBarOptions={{
           activeTintColor: '#2fb9d4',
+          inactiveTintColor: '#b5b5b5',
+          
         }}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Camera" component={CameraScreen} />
@@ -180,7 +249,7 @@ const styles = StyleSheet.create({
   },
   text3: {
     fontSize: 20,
-    color: 'black',
+    color: '#313131',
     fontWeight: '500',
     fontSize: 16,
   },
