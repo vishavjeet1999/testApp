@@ -49,6 +49,14 @@ let Question = () => {
 };
 
 const HomeScreen = () => {
+  return <View style={styles.container}></View>;
+};
+
+
+const CameraScreen = () => {
+  return <View style={styles.container}></View>;
+};
+const CommunityScreen = () => {
   let [search, setSearch] = useState(false);
   let [text, setText] = useState('');
 
@@ -103,7 +111,6 @@ const HomeScreen = () => {
             </Text>
           }
           </View>
-          <Text style={[styles.text6,{paddingHorizontal:30,marginTop:20}]}>You might also interested in...</Text>
           </>
         ) : (
           <>
@@ -159,6 +166,12 @@ const HomeScreen = () => {
           </>
         )}
         <ScrollView>
+          {
+            search &&
+
+          <Text style={[styles.text6,{paddingHorizontal:30,marginTop:20}]}>You might also interested in...</Text>
+          }
+
           <Question />
           <Question />
           <Question />
@@ -171,14 +184,6 @@ const HomeScreen = () => {
       </View>
     </>
   );
-};
-
-const CameraScreen = () => {
-  return <View style={styles.container}></View>;
-};
-
-const CommunityScreen = () => {
-  return <View style={styles.container}></View>;
 };
 
 const ConsultationScreen = () => {
